@@ -46,6 +46,7 @@ var app = app || {};
   // Clear the model
   Ngram.prototype.clearModel = function() {
     this.map = {};
+    this.seeds = [];
   };
 
   Ngram.prototype.setMin = function(min) {

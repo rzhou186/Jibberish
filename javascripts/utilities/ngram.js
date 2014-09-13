@@ -23,12 +23,12 @@ var app = app || {};
 
     var words = str.split(" ");
     for (var i = 0; i < words.length - n; i++) {
-      var key = words.slice(i, i + n).join();
+      var key = words.slice(i, i + n).join(" ");
       if (!(key in this.map))
         this.map[key] = [];
       this.map[key].push(words[i + n + 1]);
     }
-    var key = words.slice(words.length - n, words.length).join();
+    var key = words.slice(words.length - n, words.length).join(" ");
     // hack TODO: Make more elegant?
     this.map[key].push("STOP");
   }
@@ -51,8 +51,18 @@ var app = app || {};
 
   // Take a random seed string, start generating
   Ngram.prototype.generate = function() {
-    var string = this.maxKey;
-    for 
+    var string = this.maxKey.split(" ");
+    while (string.length < this.maxGen) {
+      var candidates = [];
+      for (var i = this.min; i <= Math.min(this.max, string.length); i++) {
+        currKey = string.slice(string.length - i, string.length);
+        candidates = candidates.concat(this.map[currKey.join(" ")]);
+      }
+      var rand = Math.floor(Math.random() * candidates.length);
+      var next = candidates[rand];
+      string.push(next);
+    }
+    return string.join(" ");
   };
 
   app.ngram = new Ngram();

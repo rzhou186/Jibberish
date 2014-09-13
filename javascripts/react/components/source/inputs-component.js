@@ -20,36 +20,25 @@ var app = app || {};
   });
 
   app.InputsComponent = React.createClass({
-    getInitialState: function() {
-      return { inputs: [""] };
-    },
-
-    addInput: function() {
-      this.setState({
-        inputs: this.state.inputs.concat("")
-      });
-    },
-
-    updateInput: function(index, newInput) {
-      var newInputs = this.state.inputs.concat();
-      newInputs[index] = newInput;
-      this.setState({ inputs: newInputs });
-    },
-
     render: function() {
       var inputComponents = [];
-      var that = this;
-      this.state.inputs.forEach(function(input, index) {
+      var updateInput = this.props.updateInput;
+
+      this.props.inputs.forEach(function(input, index) {
         inputComponents.push(
           <InputComponent input={input} index={index}
-            updateInput={that.updateInput} />
+            updateInput={updateInput} />
         );
       });
 
       return (
         <div className="inputs">
           {inputComponents}
-          <button onClick={this.addInput}>
+          <button onSubmit={this.props.submitInputs}>
+            <span className="glyphicon glyphicon-play-circle" />
+            Run
+          </button>
+          <button onClick={this.props.addInput}>
             <span className="glyphicon glyphicon-plus-sign" />
             Add Input
           </button>

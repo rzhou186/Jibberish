@@ -23,7 +23,7 @@
           <div class="introduction">
             Introduction goes here.
           </div>
-          <div id="inputs-container"></div>
+          <div id="app-container"></div>
         </div>
         <div class="col-md-4"></div>
       </div>
@@ -38,6 +38,8 @@
     <script type="text/javascript" src="javascripts/utilities/ngram.js"></script>
 
     <script type="text/jsx" src="javascripts/react/components/source/inputs-component.js"></script>
+    <script type="text/jsx" src="javascripts/react/components/source/outputs-component.js"></script>
+    <script type="text/jsx" src="javascripts/react/components/source/app-component.js"></script>
 
     <script type="text/jsx">
       /** @jsx React.DOM */
@@ -46,11 +48,11 @@
       (function() {
         "use strict";
 
-        var InputsComponent = app.InputsComponent;
+        var AppComponent = app.AppComponent;
 
         React.renderComponent(
-          <InputsComponent />,
-          $("#inputs-container")[0]
+          <AppComponent />,
+          $("#app-container")[0]
         );
       })();
     </script>

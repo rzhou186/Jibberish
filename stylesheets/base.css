@@ -24,6 +24,11 @@ button:focus {
   outline: none;
 }
 
+button .glyphicon {
+  top: 2px;
+  margin-right: 5px;
+}
+
 .header {
   font-size: 28px;
   text-align: center;
@@ -40,11 +45,11 @@ button:focus {
 }
 
 .introduction {
-  padding-top: 30px;
+  margin-top: 30px;
 }
 
 .inputs {
-  padding-top: 30px;
+  margin-top: 30px;
   overflow: hidden;
 }
 
@@ -72,7 +77,10 @@ button:focus {
   float: right;
 }
 
-.inputs button .glyphicon {
-  top: 2px;
-  margin-right: 3px;
+.inputs button:not(:last-child) {
+  margin-left: 10px;
+}
+
+.outputs {
+  margin-top: 30px;
 }

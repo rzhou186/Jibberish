@@ -22,7 +22,27 @@ var app = app || {};
     },
 
     submitInputs: function() {
-      
+      var promises = [];
+
+      this.state.inputs.forEach(function(input) {
+        promises.push(
+          app.scraper.scrape(
+            input,
+            function(data) {
+              console.log("done");
+              app.ngram.parseContent(data.comments, 1, 3);
+            },
+            function(error) {
+            }
+          )
+        );
+      });
+
+      $.when.apply($, promises).then(function() {
+        console.log(
+          app.ngram.generate()
+        );
+      });
     },
 
     render: function() {

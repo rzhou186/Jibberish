@@ -34,7 +34,7 @@ var app = app || {};
       return (
         <div className="inputs">
           {inputComponents}
-          <button onSubmit={this.props.submitInputs}>
+          <button onClick={this.props.submitInputs}>
             <span className="glyphicon glyphicon-play-circle" />
             Run
           </button>

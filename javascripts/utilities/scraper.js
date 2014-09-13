@@ -18,7 +18,7 @@ var app = app || {};
       // Iterate through all links to comments pages
       // Calls the callback once for EACH PAGE
       if (url.indexOf("/comments/") >= 0) {
-        $.getJSON(url + '.json')
+        return $.getJSON(url + '.json')
           .done(function(response) {
             success(parseRedditJSON(response));
           })

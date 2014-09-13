@@ -18,7 +18,7 @@ var app = app || {};
     render: function() {
       return (
         <div className="outputs">
-          <span></span>
+          <OutputComponent />
         </div>
       );
     }

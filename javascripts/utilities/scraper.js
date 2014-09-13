@@ -11,16 +11,28 @@ var app = app || {};
     urlTokens.href = url;
     var hostname = urlTokens.hostname.toLowerCase();
     // if we are on reddit
-    if (hostname.indexOf("reddit") >= 0) {
-      // if we are on a page showing comments
+    if (hostname.indexOf('reddit') >= 0) {
+      // Iterate through all links to comments pages
+      // Calls the callback once for EACH PAGE
       if (url.indexOf("/comments/") >= 0) {
-        if (url[url.length-1] == "/") {
-          url = url.substring(0, url.length-1);
-        }
-        var jsonURL = url + ".json";
-        $.getJSON(jsonURL)
-            .done(function(response) {
-              success(parseRedditJSON(response));
+        $.getJSON(url + '.json')
+          .done(function(response) {
+            success(parseRedditJSON(response));
+          })
+          .fail(failure);
+      } else {
+        $.getJSON(url + '.json')
+            .done(function(obj) {
+              // get links from data
+              obj.data.children.forEach(function(child) {
+                var threadUrl = 'http://www.reddit.com' + child.data.permalink;
+                console.log(threadUrl);
+                $.getJSON(threadUrl + '.json')
+                    .done(function(response) {
+                      success(parseRedditJSON(response));
+                    })
+                    .fail(failure);
+              });
             })
             .fail(failure);
       }
@@ -29,7 +41,7 @@ var app = app || {};
     var parseRedditJSON = function(response) {
       return {
         source: "reddit",
-        title: response[0].data.children[0].data.title,
+        titles: [response[0].data.children[0].data.title],
         content: response[0].data.selftext,
         comments: parseRedditListing(response[1])
       }

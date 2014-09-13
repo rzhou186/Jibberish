@@ -4,12 +4,11 @@ var app = app || {};
   "use strict";
 
   var Ngram = function() {
-    this.currNGrams = [];
     this.map = {};
+    this.seeds = [];
     this.min = 2;
     this.max = 2;
     this.maxGen = 200;
-    this.maxKey = "";
   };
 
   // Add n-grams for current str
@@ -27,13 +26,14 @@ var app = app || {};
       if (!(key in this.map))
         this.map[key] = [];
       this.map[key].push(words[i + n]);
+      if (i === 0) this.seeds.push(key);
     }
     // hack TODO: Make more elegant?
     var key = words.slice(words.length - n, words.length).join(" ");
     if (!(key in this.map))
       this.map[key] = [];
     this.map[key].push("STOP");
-  }
+  };
 
   Ngram.prototype.parseContent = function(contents, min, max) {
     for (var n = 0; n <= this.max - this.min; n++ ) {
@@ -41,19 +41,29 @@ var app = app || {};
         this.parseString(contents[i], n);
       }
     }
-    var max = 0;
-    for (var key in this.map) {
-      if (this.map[key].length > max) {
-        this.maxKey = key;
-        max = this.map[key].length;
-      }
-    }
-    console.log("Most common key is " + this.maxKey);
+  };
+
+  // Clear the model
+  Ngram.prototype.clearModel = function() {
+    this.map = {};
+  };
+
+  Ngram.prototype.setMin = function(min) {
+    this.min = min;
+  };
+
+  Ngram.prototype.setMax = function(max) {
+    this.max = max;
+  };
+
+  Ngram.prototype.setMaxGen = function(maxGen) {
+    this.maxGen = maxGen;
   };
 
   // Take a random seed string, start generating
   Ngram.prototype.generate = function() {
-    var string = this.maxKey.split(" ");
+    var seedIndex = Math.floor(Math.random() * this.seeds.length);
+    var string = this.seeds[seedIndex].split(" ");
     while (string.length < this.maxGen) {
       var candidates = [];
       for (var i = this.min; i <= Math.min(this.max, string.length); i++) {
@@ -71,6 +81,16 @@ var app = app || {};
       string.push(next);
     }
     return string.join(" ");
+  };
+
+  //  Sanitizing strings
+  var sanitize = function(str) {
+
+  };
+
+  // Joining together (capitalization and stuff)
+  var join = function(words) {
+
   };
 
   app.ngram = new Ngram();

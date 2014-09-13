@@ -10,8 +10,10 @@ var app = app || {};
     var urlTokens = document.createElement('a');
     urlTokens.href = url;
     var hostname = urlTokens.hostname.toLowerCase();
+    url = completeURL(url);
+
     // if we are on reddit
-    if (hostname.indexOf("reddit") >= 0) {
+    if (hostname.indexOf("reddit.com") >= 0) {
       // if we are on a page showing comments
       if (url.indexOf("/comments/") >= 0) {
         if (url[url.length-1] == "/") {
@@ -25,38 +27,49 @@ var app = app || {};
             .fail(failure);
       }
     }
+  };
 
-    var parseRedditJSON = function(response) {
-      return {
-        source: "reddit",
-        title: response[0].data.children[0].data.title,
-        content: response[0].data.selftext,
-        comments: parseRedditListing(response[1])
-      }
-    };
+  var prefix1 = 'http://';
+  var prefix2 = 'https://';
 
-    var parseRedditListing = function(listing) {
-      var result = [];
-      var children = listing.data.children;
-      for (var i = 0; i < children.length; i++) {
-        var tmp = parseRedditT1(children[i]);
-        result = result.concat(tmp);
-      }
-      return result;
+  // Adding the prefix to URLs
+  var completeURL = function(url, domain) {
+    if (url.substr(0, prefix1.length) !== prefix1 && 
+        url.substr(0, prefix2.length) !== prefix2) {
+      url = prefix + url;
     }
+    return url;
+  }
 
-    var parseRedditT1 = function(obj) {
-      var result = [];
-      if (obj.data.body) {
-        result.push(obj.data.body);
-      }
-      if (obj.data.replies) {
-        result.concat(parseRedditListing(obj.data.replies));
-      }
-      return result;
+  var parseRedditJSON = function(response) {
+    return {
+      source: "reddit",
+      title: response[0].data.children[0].data.title,
+      content: response[0].data.selftext,
+      comments: parseRedditListing(response[1])
     }
   };
 
-  
+  var parseRedditListing = function(listing) {
+    var result = [];
+    var children = listing.data.children;
+    for (var i = 0; i < children.length; i++) {
+      var tmp = parseRedditT1(children[i]);
+      result = result.concat(tmp);
+    }
+    return result;
+  }
+
+  var parseRedditT1 = function(obj) {
+    var result = [];
+    if (obj.data.body) {
+      result.push(obj.data.body);
+    }
+    if (obj.data.replies) {
+      result.concat(parseRedditListing(obj.data.replies));
+    }
+    return result;
+  }
+
   app.scraper = new Scraper();
 })();

@@ -11,6 +11,8 @@ button {
   padding: 5px 10px;
   border: 1px solid #0098d8;
   border-radius: 5px;
+  -webkit-transition: all .3s ease;
+          transition: all .3s ease;
 }
 
 button:hover {
@@ -32,8 +34,15 @@ button:focus {
   letter-spacing: 3px;
 }
 
-.explanation {
-  padding-top: 20px;
+.header img {
+  display: block;
+  max-height: 50px;
+  margin: 0px auto;
+  margin-top: 10px;
+}
+
+.introduction {
+  padding-top: 30px;
 }
 
 .inputs {
@@ -50,10 +59,15 @@ button:focus {
   padding: 10px;
   border: 1px solid #cccccc;
   border-radius: 5px;
+  -webkit-transition: all .3s ease;
+          transition: all .3s ease;
 }
 
 .inputs input[type="text"]:focus {
-  outline: none;
+  border-color: #0098d8;
+  outline: invert none medium;
+  -webkit-box-shadow: 0px 0px;
+          box-shadow: 0px 0px;
 }
 
 .inputs button {

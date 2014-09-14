@@ -93,6 +93,17 @@ var app = app || {};
       }
     },
 
+    wipeAll: function() {
+      this.setState({
+        inputs: {
+          urls: [],
+          texts: []
+        },
+        outputs: {}
+      });
+      this.app.ngram.clearModel();
+    },
+
     render: function() {
       var InputsComponent = app.InputsComponent;
       var OutputsComponent = app.OutputsComponent;
@@ -106,7 +117,8 @@ var app = app || {};
             updateTextInput={this.updateTextInput}
             submitInputs={this.submitInputs} />
           <OutputsComponent output={this.state.outputs.output}
-            newOutput={this.newOutput} />
+            newOutput={this.newOutput}
+            wipeAll={this.wipeall} />
         </div>
       );
     }

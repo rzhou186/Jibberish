@@ -29,8 +29,12 @@ var app = app || {};
           <div className="title">Outputs</div>
           <OutputComponent output={this.props.output}/>
           <button onClick={this.props.newOutput}>
-            <span className="glyphicon glyphicon-refresh" />
-            New Output
+            <span className="glyphicon glyphicon-comment" />
+            Speak
+          </button>
+          <button onClick={this.props.wipeAll}>
+            <span className="glyphicon glyphicon-floppy-remove" />
+            Wipe
           </button>
         </div>
       );

@@ -72,15 +72,15 @@ var app = app || {};
           <div className="title">Inputs</div>
           {inputComponents}
           <button onClick={this.props.submitInputs}>
-            <span className="glyphicon glyphicon-play-circle" />
-            Run
+            <span className="glyphicon glyphicon-eye-open" />
+            Read
           </button>
           <button onClick={this.props.addTextInput}>
-            <span className="glyphicon glyphicon-plus-sign" />
+            <span className="glyphicon glyphicon-pencil" />
             Add Text
           </button>
           <button onClick={this.props.addUrlInput}>
-            <span className="glyphicon glyphicon-plus-sign" />
+            <span className="glyphicon glyphicon-link" />
             Add URL
           </button>
         </div>

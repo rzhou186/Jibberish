@@ -93,6 +93,10 @@ textarea {
 
 .inputs .empty {
   font-style: italic;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background-color: #fcfcfc;
   text-align: center;
 }
 
@@ -119,4 +123,8 @@ textarea {
 
 .outputs button {
   float: right;
+}
+
+.outputs button:not(:last-child) {
+  margin-left: 10px;
 }

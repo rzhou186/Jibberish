@@ -12,7 +12,7 @@ var app = app || {};
 
     render: function() {
       return (
-        <input type="text" ref="input"
+        <input className="input" type="text" ref="input"
           defaultValue={this.props.input}
           onChange={this.handleChange} />
       );
@@ -33,6 +33,7 @@ var app = app || {};
 
       return (
         <div className="inputs">
+          <div className="title">Inputs</div>
           {inputComponents}
           <button onClick={this.props.submitInputs}>
             <span className="glyphicon glyphicon-play-circle" />

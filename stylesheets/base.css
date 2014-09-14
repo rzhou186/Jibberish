@@ -29,6 +29,13 @@ button .glyphicon {
   margin-right: 5px;
 }
 
+.title {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
 .header {
   font-size: 28px;
   text-align: center;
@@ -57,7 +64,7 @@ button .glyphicon {
   margin-top: 20px;
 }
 
-.inputs input[type="text"] {
+.inputs .input {
   width: 100%;
   padding: 10px;
   border: 1px solid #cccccc;
@@ -66,11 +73,9 @@ button .glyphicon {
           transition: all .3s ease;
 }
 
-.inputs input[type="text"]:focus {
+.inputs .input:focus {
   border-color: #0098d8;
   outline: invert none medium;
-  -webkit-box-shadow: 0px 0px;
-          box-shadow: 0px 0px;
 }
 
 .inputs button {
@@ -83,4 +88,25 @@ button .glyphicon {
 
 .outputs {
   margin-top: 30px;
+  overflow: hidden;
+}
+
+.outputs *:not(:first-child) {
+  margin-top: 20px;
+}
+
+.outputs .output {
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background-color: #fcfcfc;
+  text-align: center;
+}
+
+.outputs .output .empty {
+  font-style: italic;
+}
+
+.outputs button {
+  float: right;
 }

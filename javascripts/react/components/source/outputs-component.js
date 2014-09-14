@@ -6,9 +6,17 @@ var app = app || {};
 
   var OutputComponent = React.createClass({
     render: function() {
+      var output = this.props.output;
+      if (!output) {
+        output = 
+          <span className="empty">
+            No current outputs.
+          </span>;
+      }
+
       return (
         <div className="output">
-          
+          {output}
         </div>
       );
     }
@@ -18,7 +26,12 @@ var app = app || {};
     render: function() {
       return (
         <div className="outputs">
-          <OutputComponent />
+          <div className="title">Outputs</div>
+          <OutputComponent output={this.props.output}/>
+          <button onClick={this.props.newOutput}>
+            <span className="glyphicon glyphicon-refresh" />
+            New Output
+          </button>
         </div>
       );
     }

@@ -6,30 +6,65 @@ var app = app || {};
 
   app.AppComponent = React.createClass({
     getInitialState: function() {
-      return { 
-        inputs: [""],
+      return {
+        inputs: {
+          urls: [],
+          texts: []
+        },
         outputs: {}
       };
     },
 
-    addInput: function() {
+    addUrlInput: function() {
       this.setState({
-        inputs: this.state.inputs.concat("")
+        inputs: {
+          urls: this.state.inputs.urls.concat(""),
+          texts: this.state.inputs.texts
+        }
       });
     },
 
-    updateInput: function(index, newInput) {
-      var newInputs = this.state.inputs.concat();
-      newInputs[index] = newInput;
-      this.setState({ inputs: newInputs });
+    updateUrlInput: function(index, newUrlInput) {
+      var newUrlInputs = this.state.inputs.urls.concat();
+      newUrlInputs[index] = newUrlInput;
+      this.setState({ 
+        inputs: {
+          urls: newUrlInputs,
+          texts: this.state.inputs.texts
+        }
+      });
     },
 
+    addTextInput: function() {
+      this.setState({
+        inputs: {
+          urls: this.state.inputs.urls,
+          texts: this.state.inputs.texts.concat("")
+        }
+      });
+    },
+
+    updateTextInput: function(index, newTextInput) {
+      var newTextInputs = this.state.inputs.texts.concat();
+      newTextInputs[index] = newTextInput;
+      this.setState({ 
+        inputs: {
+          urls: this.state.inputs.urls,
+          texts: newTextInputs
+        }
+      });
+    },    
+
     submitInputs: function() {
+      this.state.inputs.texts.forEach(function(textInput) {
+        app.ngram.parseContent(textInput, 1, 3);
+      });
+
       var promises = [];
-      this.state.inputs.forEach(function(input) {
+      this.state.inputs.urls.forEach(function(urlInput) {
         promises.push(
           app.scraper.scrape(
-            input,
+            urlInput,
             function(data) {
               app.ngram.parseContent(data.comments, 1, 3);
               app.scraper.redditUpdate();
@@ -65,8 +100,10 @@ var app = app || {};
       return (
         <div className="app">
           <InputsComponent inputs={this.state.inputs}
-            addInput={this.addInput}
-            updateInput={this.updateInput}
+            addUrlInput={this.addUrlInput}
+            addTextInput={this.addTextInput}
+            updateUrlInput={this.updateUrlInput}
+            updateTextInput={this.updateTextInput}
             submitInputs={this.submitInputs} />
           <OutputsComponent output={this.state.outputs.output}
             newOutput={this.newOutput} />

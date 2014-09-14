@@ -74,8 +74,13 @@ button .glyphicon {
 }
 
 .inputs .input:focus {
-  border-color: #0098d8;
   outline: invert none medium;
+  box-shadow: none;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .inputs button {
@@ -84,6 +89,11 @@ button .glyphicon {
 
 .inputs button:not(:last-child) {
   margin-left: 10px;
+}
+
+.inputs .empty {
+  font-style: italic;
+  text-align: center;
 }
 
 .outputs {

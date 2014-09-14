@@ -87,7 +87,7 @@ var app = app || {};
 
     generate: function() {
       if (app.scraper.scraping) {
-        return "Can't generate. Still scraping";
+        return "Can't generate. Still scraping.";
       } else {
         return app.ngram.generate();
       }

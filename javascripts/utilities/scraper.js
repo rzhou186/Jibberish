@@ -10,7 +10,6 @@ var app = app || {};
   };
   
   Scraper.prototype.scrape = function(url, success, failure) {
-    this.scraping = true;
     // TODO: Call function that shows "scraping"
 
     // hacky url parsing
@@ -32,6 +31,7 @@ var app = app || {};
       // Iterate through all links to comments pages
       // Calls the callback once for EACH PAGE
       } else {
+        this.scraping = true;
         var promises = [];
         var that = this;
         $.getJSON(url + '.json')

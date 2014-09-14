@@ -3,9 +3,16 @@ var app = app || {};
 (function() {
   "use strict";
 
-  var Scraper = function() {};
+  var Scraper = function() {
+    this.scraping = false;
+    this.required = 0;
+    this.scraped = 0;
+  };
   
   Scraper.prototype.scrape = function(url, success, failure) {
+    this.scraping = true;
+    // TODO: Call function that shows "scraping"
+
     // hacky url parsing
     url = completeURL(url);
     var urlTokens = document.createElement('a');
@@ -15,30 +22,49 @@ var app = app || {};
 
     // if we are on reddit
     if (hostname.indexOf('reddit') >= 0) {
-      // Iterate through all links to comments pages
-      // Calls the callback once for EACH PAGE
+      // Single comment thread
       if (url.indexOf("/comments/") >= 0) {
         return $.getJSON(url + '.json')
           .done(function(response) {
             success(parseRedditJSON(response));
           })
           .fail(failure);
+      // Iterate through all links to comments pages
+      // Calls the callback once for EACH PAGE
       } else {
+        var promises = [];
+        var that = this;
         $.getJSON(url + '.json')
             .done(function(obj) {
+              that.required = obj.data.children.length;
+              console.log(obj.data.children.length + " required");
+              console.log(that);
               // get links from data
               obj.data.children.forEach(function(child) {
                 var threadUrl = 'http://www.reddit.com' + child.data.permalink;
                 console.log(threadUrl);
-                $.getJSON(threadUrl + '.json')
-                    .done(function(response) {
-                      success(parseRedditJSON(response));
-                    })
-                    .fail(failure);
+
+                promises.push($.getJSON(threadUrl + '.json')
+                               .done(function(response) {
+                                  success(parseRedditJSON(response));
+                                  console.log(this);
+                                })
+                               .fail(failure));
               });
             })
             .fail(failure);
       }
+    }
+  };
+
+  // After scraping a subreddit, update number scraped and check
+  Scraper.prototype.redditUpdate = function() {
+    this.scraped++;
+    console.log(this.scraped + " scraped of " + this.required);
+    console.log(this);
+    if (this.scraped === this.required) {
+      this.scraping = false;
+      console.log("DONE SCRAPING");
     }
   };
 

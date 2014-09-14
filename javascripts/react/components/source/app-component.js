@@ -57,9 +57,10 @@ var app = app || {};
 
     submitInputs: function() {
       app.loader.trigger("loading", true);
-
       this.state.inputs.texts.forEach(function(textInput) {
-        app.ngram.parseContent(textInput, 1, 3);
+        var texts = textInput.split("\n");
+        console.log(texts);
+        app.ngram.parseContent(texts, 1, 3);
       });
 
       var promises = [];
@@ -98,6 +99,7 @@ var app = app || {};
     },
 
     wipeAll: function() {
+      console.log("WIPED");
       this.setState({
         inputs: {
           urls: [],
@@ -105,7 +107,7 @@ var app = app || {};
         },
         outputs: {}
       });
-      this.app.ngram.clearModel();
+      app.ngram.clearModel();
     },
 
     render: function() {
@@ -122,7 +124,7 @@ var app = app || {};
             submitInputs={this.submitInputs} />
           <OutputsComponent output={this.state.outputs.output}
             newOutput={this.newOutput}
-            wipeAll={this.wipeall} />
+            wipeAll={this.wipeAll} />
         </div>
       );
     }

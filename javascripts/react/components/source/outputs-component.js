@@ -8,15 +8,18 @@ var app = app || {};
     render: function() {
       var output = this.props.output;
       if (!output) {
-        output = 
-          <span className="empty">
-            No current outputs.
-          </span>;
+        return (
+          <div className="output">
+            <span className="empty">
+              No current outputs.
+            </span>
+          </div>  
+        );
       }
 
       return (
         <div className="output">
-          {output}
+          &quot;{output}&quot;
         </div>
       );
     }

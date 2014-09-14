@@ -56,6 +56,8 @@ var app = app || {};
     },    
 
     submitInputs: function() {
+      app.loader.trigger("loading", true);
+
       this.state.inputs.texts.forEach(function(textInput) {
         app.ngram.parseContent(textInput, 1, 3);
       });
@@ -78,6 +80,8 @@ var app = app || {};
     },
 
     newOutput: function() {
+      app.loader.trigger("loading", false);
+
       this.setState({
         outputs: {
           output: this.generate()

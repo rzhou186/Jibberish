@@ -5,7 +5,31 @@ var app = app || {};
   "use strict";
 
   var OutputComponent = React.createClass({
+    getInitialState: function() {
+      return {
+        loading: false
+      }
+    },
+
+    componentDidMount: function() {
+      app.loader.on("loading", function(loading) {
+        this.setState({
+          loading: loading
+        });
+      }, this);
+    },
+
     render: function() {
+      if (this.state.loading) {
+        return (
+          <div className="output">
+            <span className="loading">
+              <img src="../../../../images/loader.gif" height="18" />
+            </span>
+          </div>  
+        );
+      }
+
       var output = this.props.output;
       if (!output) {
         return (

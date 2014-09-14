@@ -117,7 +117,8 @@ textarea {
   text-align: center;
 }
 
-.outputs .output .empty {
+.outputs .output .empty,
+.outputs .output .loading {
   font-style: italic;
 }
 

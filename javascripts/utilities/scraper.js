@@ -23,7 +23,7 @@ var app = app || {};
     if (hostname.indexOf('reddit') >= 0) {
       // Single comment thread
       if (url.indexOf("/comments/") >= 0) {
-        return $.getJSON(url + '.json')
+        return $.getJSON(url + '.json?limit=100')
           .done(function(response) {
             success(parseRedditJSON(response));
           })
@@ -34,7 +34,7 @@ var app = app || {};
         this.scraping = true;
         var promises = [];
         var that = this;
-        $.getJSON(url + '.json')
+        $.getJSON(url + '.json?limit=100')
             .done(function(obj) {
               that.scraped = 0;
               that.required = obj.data.children.length;
@@ -45,7 +45,7 @@ var app = app || {};
                 var threadUrl = 'http://www.reddit.com' + child.data.permalink;
                 console.log(threadUrl);
 
-                promises.push($.getJSON(threadUrl + '.json')
+                promises.push($.getJSON(threadUrl + '.json?limit=100')
                                .done(function(response) {
                                   success(parseRedditJSON(response));
                                   console.log(this);
@@ -77,6 +77,9 @@ var app = app || {};
     if (url.substr(0, prefix1.length) !== prefix1 && 
         url.substr(0, prefix2.length) !== prefix2) {
       url = prefix1 + url;
+    }
+    if (url[url.length-1] != '/') {
+      url = url + '/';
     }
     return url;
   }

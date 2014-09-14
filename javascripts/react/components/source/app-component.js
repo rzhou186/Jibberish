@@ -6,7 +6,10 @@ var app = app || {};
 
   app.AppComponent = React.createClass({
     getInitialState: function() {
-      return { inputs: [""] };
+      return { 
+        inputs: [""],
+        outputs: {}
+      };
     },
 
     addInput: function() {
@@ -23,13 +26,11 @@ var app = app || {};
 
     submitInputs: function() {
       var promises = [];
-
       this.state.inputs.forEach(function(input) {
         promises.push(
           app.scraper.scrape(
             input,
             function(data) {
-              console.log("done");
               app.ngram.parseContent(data.comments, 1, 3);
               app.scraper.redditUpdate();
             },
@@ -41,11 +42,19 @@ var app = app || {};
       });
     },
 
+    newOutput: function() {
+      this.setState({
+        outputs: {
+          output: this.generate()
+        }
+      });
+    },
+
     generate: function() {
       if (app.scraper.scraping) {
-        console.log("Still scraping");
+        return "Can't generate. Still scraping";
       } else {
-        app.ngram.generate();
+        return app.ngram.generate();
       }
     },
 
@@ -59,8 +68,8 @@ var app = app || {};
             addInput={this.addInput}
             updateInput={this.updateInput}
             submitInputs={this.submitInputs} />
-          <OutputsComponent />
-          <button onClick={this.generate}>Generate</button>
+          <OutputsComponent output={this.state.outputs.output}
+            newOutput={this.newOutput} />
         </div>
       );
     }

@@ -43,7 +43,7 @@ var app = app || {};
 
       return (
         <div className="output">
-          &quot;{output}&quot;
+          {output}
         </div>
       );
     }

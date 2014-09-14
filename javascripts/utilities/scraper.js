@@ -36,6 +36,7 @@ var app = app || {};
         var that = this;
         $.getJSON(url + '.json')
             .done(function(obj) {
+              that.scraped = 0;
               that.required = obj.data.children.length;
               console.log(obj.data.children.length + " required");
               console.log(that);
